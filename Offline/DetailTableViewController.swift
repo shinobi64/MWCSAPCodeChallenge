@@ -9,7 +9,7 @@ import UIKit
 import SAPFiori
 
 class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDelegate, UITextFieldDelegate, ActivityIndicator {
-
+    
     private var product: MyPrefixProduct!
     private var activityIndicator: UIActivityIndicatorView!
     private var oDataModel: ODataModel?
@@ -31,6 +31,11 @@ class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDeleg
         super.viewDidLoad()
         DetailTable.delegate = self
         DetailTable.dataSource = self
+        
+        DetailTable.allowsMultipleSelectionDuringEditing = true
+        DetailTable.setEditing(true, animated: true)
+        DetailTable.register(FUIObjectTableViewCell.self, forCellReuseIdentifier: "DetailCell")
+        
         activityIndicator = initActivityIndicator()
         activityIndicator.center = view.center
         view.addSubview(activityIndicator)
@@ -47,14 +52,14 @@ class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDeleg
             //        objectHeader.detailImageView.image = #imageLiteral(resourceName: "ProfilePic")
             
             objectHeader.headlineLabel.text = product.name
-//            objectHeader.subheadlineLabel.text = "\(salesOrderItem.price!.toString()) \(String(describing: salesOrderItem.currencyCode))"
-//            objectHeader.footnoteLabel.text = salesOrderItem.categoryName
-//            objectHeader.descriptionLabel.text = salesOrderItem.longDescription
-//
-//            objectHeader.statusLabel.text = salesOrderItem.supplierID
+            objectHeader.subheadlineText = product.categoryName
+            objectHeader.descriptionText = product.longDescription
+
             DetailTable.tableHeaderView = objectHeader
             
         }
+        
+        hideActivityIndicator(activityIndicator)
     }
 
     override func didReceiveMemoryWarning() {
@@ -98,36 +103,17 @@ extension DetailTableViewController: UITableViewDataSource, UITableViewDelegate 
     ///   - indexPath:
     /// - Returns: fills the cells with the Salesorder
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! EditableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! FUIObjectTableViewCell
+    
+        let instruction = instructions[indexPath.row]
         
-        let  instruction = instructions[indexPath.row]
-        
-        cell.textLabel?.text = "\(indexPath.row + 1). \(instruction)"
-//        cell.detailTextLabel?.text = (singleProduct.price?.toString())! + singleProduct.currencyCode!
-        
-        //        switch indexPath.row {
-        //        case 0:
-        //            cell.unitLabel?.text = salesOrderItem.dimensionUnit
-        //            cell.titleLabel.text = "Depth"
-        //            cell.valueTextField.text = salesOrderItem.dimensionDepth?.toString()
-        //            break
-        //        case 1:
-        //            cell.unitLabel?.text = salesOrderItem.dimensionUnit
-        //            cell.titleLabel.text = "Width"
-        //            cell.valueTextField.text = salesOrderItem.dimensionWidth?.toString()
-        //            break
-        //        case 2:
-        //            cell.unitLabel?.text = salesOrderItem.dimensionUnit
-        //            cell.titleLabel.text = "Height"
-        //            cell.valueTextField.text = salesOrderItem.dimensionHeight?.toString()
-        //            break
-        //        default: break
-        //
-        //        }
-//        cell.valueTextField.allowsEditingTextAttributes = false
-        
+        cell.headlineText = "\(indexPath.row + 1). \(instruction)"
         return cell
         
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    }
+    
 }
 

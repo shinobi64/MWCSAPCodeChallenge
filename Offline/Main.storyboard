@@ -262,10 +262,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IoK-je-2yX">
-                                <rect key="frame" x="0.0" y="207" width="375" height="460"/>
+                                <rect key="frame" x="0.0" y="72" width="375" height="595"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DetailCell" id="OCJ-ex-zyN" customClass="EditableCell" customModule="Offline" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DetailCell" id="OCJ-ex-zyN" customClass="FUIObjectTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OCJ-ex-zyN" id="MLa-Pm-WtB">
@@ -329,7 +329,11 @@
                             <constraint firstItem="IoK-je-2yX" firstAttribute="leading" secondItem="JKo-Ez-Ug0" secondAttribute="leading" id="q05-DE-KOl"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="EquipmentDetails" id="tfb-W0-7yc" userLabel="Details"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="EquipmentDetails" id="tfb-W0-7yc" userLabel="Details">
+                        <barButtonItem key="rightBarButtonItem" title="Complete" id="VtL-DY-mJm"/>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="DetailTable" destination="IoK-je-2yX" id="Qvu-ra-MfF"/>
                     </connections>
