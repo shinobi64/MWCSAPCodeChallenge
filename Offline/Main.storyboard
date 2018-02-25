@@ -97,7 +97,7 @@
                                         <rect key="frame" x="325" y="10" width="30" height="30"/>
                                         <state key="normal" title="Map"/>
                                         <connections>
-                                            <segue destination="Pc7-19-qgn" kind="show" id="NFc-6S-lW4"/>
+                                            <segue destination="Pc7-19-qgn" kind="show" identifier="TicketMap" id="NFc-6S-lW4"/>
                                         </connections>
                                     </button>
                                 </subviews>

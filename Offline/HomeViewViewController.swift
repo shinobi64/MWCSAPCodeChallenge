@@ -108,6 +108,9 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, Activity
             sOviewControler.initialize(oDataModel: oDataModel!)
             sOviewControler.loadSalesOrderItems(newItem: order)
             
+        } else if segue.identifier == "TicketMap" {
+            let destination = segue.destination as! TicketMapViewController
+            destination.loadSalesOrders(newItem: salesOrders)
         }
         
     }
