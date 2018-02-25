@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SAPFiori
 
 class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableViewDataSource, UITableViewDelegate, ActivityIndicator {
     
@@ -17,6 +18,7 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
     private var filteredSalesOrders = [MyPrefixSalesOrderHeader]()
     private var activityIndicator: UIActivityIndicatorView!
     private let refreshControl = UIRefreshControl()
+    private let objectCellId = "SalesOrderCellID"
     
     func initialize(oDataModel: ODataModel) {
         self.oDataModel = oDataModel
@@ -40,6 +42,7 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
         }
         HomeTableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshOfflineData(_:)), for: .valueChanged)
+        HomeTableView.register(FUIObjectTableViewCell.self, forCellReuseIdentifier: objectCellId)
     }
     @objc private func refreshOfflineData(_ sender: Any) {
         // Fetch Weather Data
@@ -63,17 +66,32 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return salesOrders.count
+        return filteredSalesOrders.count
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "OpenTicketCell", for: indexPath)
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "OpenTicketCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: objectCellId,
+                                                       for: indexPath as IndexPath) as! FUIObjectTableViewCell
         if indexPath.section == 0 {
-            let singleOrder = salesOrders[indexPath.row]
+            let singleOrder = filteredSalesOrders[indexPath.row]
             
-            cell.textLabel?.text = singleOrder.salesOrderID
-            cell.detailTextLabel?.text = (singleOrder.taxAmount?.toString())! + singleOrder.currencyCode!
+            cell.headlineText = singleOrder.salesOrderID
+            cell.footnoteText = (singleOrder.taxAmount?.toString())! + singleOrder.currencyCode!
+            cell.statusText = arc4random_uniform(_: 2) == 0 ? "High" : "Medium"
+            cell.accessoryType = .disclosureIndicator
+//            objectCell.headlineText = "Speed Mouse"
+//            objectCell.subheadlineText = "HT-1061"
+//            objectCell.footnoteText = "Computer Components"
+//            objectCell.descriptionText = "Optical USB, PS/2 Mouse, Color: Blue, 3-button-functionality (incl. Scroll wheel)"
+//            objectCell.detailImage = UIImage() // TODO: Replace with your image
+//            objectCell.detailImage?.accessibilityIdentifier = "Speed Mouse"
+
+//            objectCell.substatusText = "In Stock"
+//            objectCell.substatusLabel.textColor = .preferredFioriColor(forStyle: .positive)
+
+//            objectCell.splitPercent = CGFloat(0.3)
         }
         
         return cell
@@ -94,7 +112,7 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "TicketDetails" {
             let indexPath = sender as! IndexPath
-            let order: MyPrefixSalesOrderHeader = salesOrders[indexPath.row]
+            let order: MyPrefixSalesOrderHeader = filteredSalesOrders[indexPath.row]
             let sOviewControler = segue.destination as! SalesOrderViewController
             sOviewControler.initialize(oDataModel: oDataModel!)
             sOviewControler.loadSalesOrderItems(newItem: order)
@@ -110,6 +128,7 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
             }
             if let tempSalesOrders = resultSalesOrders {
                 self.salesOrders = tempSalesOrders
+                self.filteredSalesOrders = tempSalesOrders
             }
             OperationQueue.main.addOperation {
                 self.HomeTableView.reloadData()
@@ -218,12 +237,17 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
 }
 
 extension HomeViewViewController: UISearchBarDelegate {
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-//        filteredProducts = filteredProducts.filter { ( product ) -> Bool in
-//            guard let searchBarText = searchBar.text else { return false }
-//            return product.name?.range(of: searchBarText) != nil
-//        }
-//
-//        print(filteredProducts)
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard searchText != ""
+            else {
+                filteredSalesOrders = salesOrders
+                HomeTableView.reloadData()
+                return
+        }
+        
+        filteredSalesOrders = salesOrders.filter { ( salesOrder ) -> Bool in
+            return salesOrder.salesOrderID?.range(of: searchText) != nil
+        }
+        HomeTableView.reloadData()
     }
 }
