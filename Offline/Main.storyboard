@@ -329,7 +329,11 @@
                             <constraint firstItem="IoK-je-2yX" firstAttribute="leading" secondItem="JKo-Ez-Ug0" secondAttribute="leading" id="q05-DE-KOl"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="EquipmentDetails" id="tfb-W0-7yc" userLabel="Details"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="EquipmentDetails" id="tfb-W0-7yc" userLabel="Details">
+                        <barButtonItem key="rightBarButtonItem" title="Complete" id="VtL-DY-mJm"/>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="DetailTable" destination="IoK-je-2yX" id="Qvu-ra-MfF"/>
                     </connections>

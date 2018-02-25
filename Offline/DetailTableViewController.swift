@@ -9,7 +9,7 @@ import UIKit
 import SAPFiori
 
 class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDelegate, UITextFieldDelegate, ActivityIndicator {
-
+    
     private var product: MyPrefixProduct!
     private var activityIndicator: UIActivityIndicatorView!
     private var oDataModel: ODataModel?
@@ -113,9 +113,7 @@ extension DetailTableViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        
-    
     }
+    
 }
 
