@@ -21,12 +21,6 @@ class TicketMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
-        annotation.title = "SAP SE"
-        
-        mapView.addAnnotation(annotation)
-        
         if #available(iOS 11.0, *) {
             
             // the FUIMarkerAnnotationView is only available in iOS 11
@@ -43,11 +37,11 @@ class TicketMapViewController: UIViewController {
             mapView.register(FioriMarker.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         }
         
-        let geoCoder = CLGeocoder()
-        
         for salesOrder in salesOrders {
             
-            geoCoder.geocodeAddressString(salesOrder.customerDetails?.street ?? "") { (placemarks, error) in
+            let geoCoder = CLGeocoder()
+            
+            geoCoder.geocodeAddressString("\(salesOrder.customerDetails?.street ?? ""), \(salesOrder.customerDetails?.city ?? "")") { (placemarks, error) in
                 guard
                     let placemarks = placemarks,
                     let location = placemarks.first?.location
@@ -61,22 +55,6 @@ class TicketMapViewController: UIViewController {
                 annotation.title = salesOrder.salesOrderID
                 
                 self.mapView.addAnnotation(annotation)
-                
-                if #available(iOS 11.0, *) {
-                    
-                    // the FUIMarkerAnnotationView is only available in iOS 11
-                    class FioriMarker: FUIMarkerAnnotationView {
-                        override var annotation: MKAnnotation? {
-                            willSet {
-                                markerTintColor = .preferredFioriColor(forStyle: .map1)
-                                glyphImage = FUIIconLibrary.map.marker.venue.withRenderingMode(.alwaysTemplate)
-                                displayPriority = .defaultHigh
-                            }
-                        }
-                    }
-                    
-                    self.mapView.register(FioriMarker.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
-                }
             }
             
         }
