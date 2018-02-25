@@ -8,6 +8,12 @@ open class MyPrefixSalesOrderHeader: EntityValue {
         try super.init(from: decoder)
     }
 
+    public enum Priority: String {
+        case high
+        case medium
+        case low
+    }
+    
     public static var createdAt: Property = MyServiceClassMetadata.EntityTypes.salesOrderHeader.property(withName: "CreatedAt")
 
     public static var currencyCode: Property = MyServiceClassMetadata.EntityTypes.salesOrderHeader.property(withName: "CurrencyCode")
@@ -29,7 +35,9 @@ open class MyPrefixSalesOrderHeader: EntityValue {
     public static var customerDetails: Property = MyServiceClassMetadata.EntityTypes.salesOrderHeader.property(withName: "CustomerDetails")
 
     public static var items: Property = MyServiceClassMetadata.EntityTypes.salesOrderHeader.property(withName: "Items")
-
+    
+    public var priority: Priority = .high
+    
     public init(withDefaults: Bool = true) {
         super.init(withDefaults: withDefaults, type: MyServiceClassMetadata.EntityTypes.salesOrderHeader)
     }
