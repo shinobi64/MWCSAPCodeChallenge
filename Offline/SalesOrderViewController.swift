@@ -92,7 +92,10 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
             SalesOrderTable.tableHeaderView = objectHeader
 
         }
-
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        SalesOrderTable.reloadData()
     }
 
     /// Delegate function from UITableViewDataSource

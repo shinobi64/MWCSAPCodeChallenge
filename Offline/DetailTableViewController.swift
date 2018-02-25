@@ -71,7 +71,7 @@ class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDeleg
         
         hideActivityIndicator(activityIndicator)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -90,7 +90,6 @@ class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDeleg
     func loadItem(_ item: MyPrefixSalesOrderItem) {
         self.item = item
     }
-
     
 }
 
