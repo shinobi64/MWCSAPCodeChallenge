@@ -269,6 +269,30 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
             cell.headlineText = singleOrder.salesOrderID
             cell.footnoteText = "\(singleOrder.customerDetails?.street ?? ""), \(singleOrder.customerDetails?.city ?? "")"
             cell.statusText = singleOrder.priority.rawValue.capitalized
+            
+            switch singleOrder.priority {
+            case .low:
+                cell.statusLabel.textColor = .preferredFioriColor(forStyle: .positive)
+                break
+            case .medium:
+                break
+            case .high:
+                cell.statusLabel.textColor = .preferredFioriColor(forStyle: .negative)
+                break
+            default:
+                break
+            }
+            
+            cell.substatusText = singleOrder.lifeCycleStatusName
+            switch singleOrder.lifeCycleStatusName {
+            case "New"?:
+                cell.substatusLabel.textColor = .preferredFioriColor(forStyle: .negative)
+                break
+            default:
+                cell.substatusLabel.textColor = .preferredFioriColor(forStyle: .positive)
+                break
+            }
+            
             cell.accessoryType = .disclosureIndicator
             //            objectCell.headlineText = "Speed Mouse"
             //            objectCell.subheadlineText = "HT-1061"

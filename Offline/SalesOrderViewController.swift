@@ -14,6 +14,8 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     @IBAction func updateStatus(_ sender: Any) {
         do {
             try oDataModel!.updateSalesOrderHeader(status: "Close", currentSalesOrder: salesOrder)
+            FUIToastMessage.show(message: "Ticket \(salesOrder.salesOrderID) completed.", maxNumberOfLines: 2)
+            navigationController?.popViewController(animated: true)
 
         } catch  {
             let alert = UIAlertController(title: "Alert", message: "Updating the Status went south!", preferredStyle: .alert)
@@ -41,7 +43,7 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
         
         SalesOrderTable.register(FUIObjectTableViewCell.self, forCellReuseIdentifier: "SalesOrderCell")
         SalesOrderTable.estimatedRowHeight = 80
-        SalesOrderTable.rowHeight = UITableViewAutomaticDimension        
+        SalesOrderTable.rowHeight = UITableViewAutomaticDimension
 
         // Do any additional setup after loading the view
         oDataModel!.loadProdcutsForSalesOrder(salesOrder: salesOrder)  { resultProducts, error in
@@ -74,8 +76,19 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
             
             objectHeader.footnoteText = "Due on 25th Feb. 2018"
             
-            objectHeader.statusLabel.text = "High"
-            objectHeader.statusLabel.textColor = .preferredFioriColor(forStyle: .negative)
+            objectHeader.statusLabel.text = salesOrder.priority.rawValue
+            
+            switch salesOrder.priority {
+            case .low:
+                objectHeader.statusLabel.textColor = .preferredFioriColor(forStyle: .positive)
+                break
+            case .medium:
+                break
+            default:
+                objectHeader.statusLabel.textColor = .preferredFioriColor(forStyle: .negative)
+                break
+            }
+
             SalesOrderTable.tableHeaderView = objectHeader
 
         }
@@ -112,13 +125,20 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
         let objectCell = tableView.dequeueReusableCell(withIdentifier: "SalesOrderCell", for: indexPath) as! FUIObjectTableViewCell
         
         let singleItem = products[indexPath.row]
+        let item = salesOrder.items[indexPath.row]
         
         objectCell.headlineText = singleItem.name
         objectCell.subheadlineText = singleItem.productID
         objectCell.footnoteText = singleItem.categoryName
         
-        objectCell.substatusText = "In Stock"
-        objectCell.substatusLabel.textColor = .preferredFioriColor(forStyle: .positive)
+        if item.isComplete {
+          objectCell.substatusText = "Completed"
+          objectCell.substatusLabel.textColor = .preferredFioriColor(forStyle: .positive)
+        } else {
+          objectCell.substatusText = "Open"
+          objectCell.substatusLabel.textColor = .preferredFioriColor(forStyle: .negative)
+        }
+        
         objectCell.accessoryType = .disclosureIndicator
         
         return objectCell
