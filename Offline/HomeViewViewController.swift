@@ -25,9 +25,9 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, Activity
     
     let categoryItemHigh = FUIFilterItem("High", isFavorite: true, isActive: false)
     
-    let categoryItemLow = FUIFilterItem("Low", isFavorite: true, isActive: false)
-    
     let categoryItemMedium = FUIFilterItem("Medium", isFavorite: true, isActive: false)
+    
+    let categoryItemLow = FUIFilterItem("Low", isFavorite: true, isActive: false)
     
     func initialize(oDataModel: ODataModel) {
         self.oDataModel = oDataModel
@@ -76,8 +76,8 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, Activity
         
         categoryGroup.items = [
             categoryItemHigh,
-            categoryItemLow,
-            categoryItemMedium
+            categoryItemMedium,
+            categoryItemLow
         ]
         
         categoryGroup.isMutuallyExclusive = true

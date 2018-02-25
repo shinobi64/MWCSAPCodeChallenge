@@ -47,7 +47,7 @@
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aUA-Xb-XkS">
-                                <rect key="frame" x="0.0" y="120" width="375" height="503"/>
+                                <rect key="frame" x="0.0" y="120" width="375" height="497"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="OpenTicketCell" textLabel="nLK-qt-jju" detailTextLabel="gjW-4z-0YY" style="IBUITableViewCellStyleSubtitle" id="VNo-xH-EqQ">
@@ -77,17 +77,24 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vG1-h4-Dxu">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DPN-kK-bXg" userLabel="Separator">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="6gU-p1-amd"/>
+                                        </constraints>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Vf-1N-Fw2">
-                                        <rect key="frame" x="5" y="-0.5" width="315" height="44"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <rect key="frame" x="5" y="2.5" width="315" height="44"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="OY9-6g-8Tv"/>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rn5-Xf-W6f">
-                                        <rect key="frame" x="325" y="7" width="30" height="30"/>
+                                        <rect key="frame" x="325" y="10" width="30" height="30"/>
                                         <state key="normal" title="Map"/>
                                         <connections>
                                             <segue destination="Pc7-19-qgn" kind="show" id="NFc-6S-lW4"/>
@@ -96,10 +103,13 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="DPN-kK-bXg" firstAttribute="leading" secondItem="vG1-h4-Dxu" secondAttribute="leading" id="CKu-ry-yLr"/>
                                     <constraint firstItem="rn5-Xf-W6f" firstAttribute="leading" secondItem="5Vf-1N-Fw2" secondAttribute="trailing" constant="5" id="GbV-iY-g1W"/>
                                     <constraint firstItem="rn5-Xf-W6f" firstAttribute="centerY" secondItem="vG1-h4-Dxu" secondAttribute="centerY" id="I2n-lB-4yA"/>
-                                    <constraint firstAttribute="height" constant="44" id="ZTm-Mi-ejT"/>
+                                    <constraint firstAttribute="height" constant="50" id="ZTm-Mi-ejT"/>
+                                    <constraint firstItem="DPN-kK-bXg" firstAttribute="top" secondItem="vG1-h4-Dxu" secondAttribute="top" id="e6S-lm-oTb"/>
                                     <constraint firstItem="5Vf-1N-Fw2" firstAttribute="centerY" secondItem="vG1-h4-Dxu" secondAttribute="centerY" id="gfc-3n-wFg"/>
+                                    <constraint firstItem="DPN-kK-bXg" firstAttribute="trailing" secondItem="vG1-h4-Dxu" secondAttribute="trailing" id="gkx-7P-MkH"/>
                                     <constraint firstAttribute="trailing" secondItem="rn5-Xf-W6f" secondAttribute="trailing" constant="20" id="ojY-V2-uES"/>
                                     <constraint firstItem="5Vf-1N-Fw2" firstAttribute="leading" secondItem="vG1-h4-Dxu" secondAttribute="leading" constant="5" id="zjo-eE-ulh"/>
                                 </constraints>
