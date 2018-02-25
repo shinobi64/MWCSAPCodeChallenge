@@ -159,16 +159,16 @@ class ODataModel {
                 for sOrder in salesOrders! {
                         let group = DispatchGroup()
                         let queryCustomer = DataQuery().filter(MyPrefixCustomer.customerID.equal(sOrder.customerID!))
-                        
+                    
                         group.enter()
-                        
+                    
                         DispatchQueue.global().async {
                             if let customerResult = try? self.offlineService.fetchCustomer(matching: queryCustomer) {
                                 sOrder.customerDetails = customerResult
                             }
                             group.leave()
                         }
-                        
+                    
                         group.wait()
                 }
                 
