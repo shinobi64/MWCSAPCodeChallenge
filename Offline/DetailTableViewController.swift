@@ -11,6 +11,7 @@ import SAPFiori
 class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDelegate, UITextFieldDelegate, ActivityIndicator {
     
     private var product: MyPrefixProduct!
+    private var item: MyPrefixSalesOrderItem!
     private var activityIndicator: UIActivityIndicatorView!
     private var oDataModel: ODataModel?
     
@@ -74,6 +75,14 @@ class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDeleg
         self.product = product
     }
 
+    /// loads the current item
+    ///
+    /// - Parameter product: the current item
+    func loadItem(_ item: MyPrefixSalesOrderItem) {
+        self.item = item
+    }
+
+    
 }
 
 extension DetailTableViewController: UITableViewDataSource, UITableViewDelegate {

@@ -41,7 +41,7 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
         
         SalesOrderTable.register(FUIObjectTableViewCell.self, forCellReuseIdentifier: "SalesOrderCell")
         SalesOrderTable.estimatedRowHeight = 80
-        SalesOrderTable.rowHeight = UITableViewAutomaticDimension
+        SalesOrderTable.rowHeight = UITableViewAutomaticDimension        
 
         // Do any additional setup after loading the view
         oDataModel!.loadProdcutsForSalesOrder(salesOrder: salesOrder)  { resultProducts, error in
@@ -138,9 +138,11 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
             
             let indexPath = sender as! IndexPath
             let product: MyPrefixProduct = products[indexPath.row]
+            let item: MyPrefixSalesOrderItem = salesOrder.items[indexPath.row]
             let pViewControler = segue.destination as! DetailTableViewController
             pViewControler.initialize(oDataModel: oDataModel!)
             pViewControler.loadProduct(product)
+            pViewControler.loadItem(item)
         }
     }
     /// loads the current salesorderItem
