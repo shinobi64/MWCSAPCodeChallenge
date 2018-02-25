@@ -14,7 +14,7 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
     @IBOutlet weak var HomeTableView: UITableView!
     private var oDataModel: ODataModel?
     private var salesOrders = [MyPrefixSalesOrderHeader]()
-    private var products = [MyPrefixProduct]()
+    private var filteredSalesOrders = [MyPrefixSalesOrderHeader]()
     private var activityIndicator: UIActivityIndicatorView!
     private let refreshControl = UIRefreshControl()
     
@@ -60,15 +60,10 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
     /// - Parameter tableView:
     /// - Returns: that this table only will have 1 section
     func numberOfSections(in _: UITableView) -> Int {
-        return 2
+        return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(section == 0){
-            return salesOrders.count
-            
-        }
-        return products.count
-        
+        return salesOrders.count
         
     }
     
@@ -79,34 +74,17 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
             
             cell.textLabel?.text = singleOrder.salesOrderID
             cell.detailTextLabel?.text = (singleOrder.taxAmount?.toString())! + singleOrder.currencyCode!
-        }else{
-            let  singleProduct = products[indexPath.row]
-            
-            cell.textLabel?.text = "\(singleProduct.name!) \(singleProduct.categoryName!)"
-            cell.detailTextLabel?.text = (singleProduct.price?.toString())! + singleProduct.currencyCode!
-            
         }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "openTickets"
-        default:
-            return "Equipment"
-        }
+        return "openTickets"
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 0:
-            performSegue(withIdentifier: "Tickets", sender: indexPath)
-            break;
-        default:
-            performSegue(withIdentifier: "Equipment", sender: indexPath)
-        }
+        performSegue(withIdentifier: "TicketDetails", sender: indexPath)
     }
     /// Handler to prepare the segue
     ///
@@ -114,21 +92,12 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
     ///   - segue:
     ///   - sender:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "Tickets" {
+        if segue.identifier == "TicketDetails" {
             let indexPath = sender as! IndexPath
             let order: MyPrefixSalesOrderHeader = salesOrders[indexPath.row]
             let sOviewControler = segue.destination as! SalesOrderViewController
             sOviewControler.initialize(oDataModel: oDataModel!)
             sOviewControler.loadSalesOrderItems(newItem: order)
-            
-        }
-        if segue.identifier == "Equipment" {
-            
-            let indexPath = sender as! IndexPath
-            let equipment: MyPrefixProduct = products[indexPath.row]
-            let sDetailControler = segue.destination as! DetailTableViewController
-            sDetailControler.initialize(oDataModel: oDataModel!)
-            sDetailControler.loadSalesOrderItem(item: equipment)
             
         }
         
@@ -141,19 +110,6 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
             }
             if let tempSalesOrders = resultSalesOrders {
                 self.salesOrders = tempSalesOrders
-            }
-            OperationQueue.main.addOperation {
-                self.HomeTableView.reloadData()
-                
-            }
-        }
-        self.oDataModel!.loadProdcuts{ resultProducts, error in
-            
-            if error != nil {
-                // handle error in future version
-            }
-            if let tempProducts = resultProducts {
-                self.products = tempProducts
             }
             OperationQueue.main.addOperation {
                 self.HomeTableView.reloadData()
@@ -175,90 +131,99 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, UITableV
     @IBAction func resetData(_ sender: Any) {
 
 
-        for equipment in products {
-            var dirty = false;
-            switch equipment.category {
-                
-            case "Portable Players"?, "Graphic Cards"?:
-                let newCategory : String = "Control System"
-                equipment.categoryName = newCategory
-                equipment.category = newCategory
-                equipment.name = equipment.name?.replacingOccurrences(of: "DVD Player", with: "Controler")
-                dirty = true;
-                break;
-            case "Scanners"?, "Keyboards"?:
-                let newCategory : String = "Radio Scanners"
-                equipment.categoryName = newCategory
-                equipment.category = newCategory
-                equipment.name = equipment.name?.replacingOccurrences(of: "Photo", with: "Radio")
-                equipment.shortDescription = equipment.shortDescription?.replacingOccurrences(of: "Flatbed", with: "Radio")
-                equipment.longDescription = equipment.longDescription?.replacingOccurrences(of: "Flatbed", with: "Radio")
-                dirty = true;
-                break;
-            case "MP3 Players"?, "Mousepads"? , "Mice"?:
-                let newCategory : String = "Antenna"
-                equipment.categoryName = newCategory
-                equipment.category = newCategory
-                equipment.name = equipment.name?.replacingOccurrences(of: "Player", with: "Antenna")
-                equipment.name = equipment.name?.replacingOccurrences(of: "Mousepad", with: "Antenna")
-                equipment.shortDescription = equipment.shortDescription?.replacingOccurrences(of: "MP3 Players", with: "Antenna")
-                equipment.longDescription = equipment.longDescription?.replacingOccurrences(of: "MP3 Players", with: "Antenna")
-                dirty = true;
-                break;
-            case "Notebooks"?, "Multifunction Printers"?:
-                let newCategory : String = "Transceiver"
-                equipment.categoryName = newCategory
-                equipment.category = newCategory
-                equipment.name = equipment.name?.replacingOccurrences(of: "Notebook", with: "Transceiver")
-                equipment.shortDescription = equipment.shortDescription?.replacingOccurrences(of: "Notebook", with: "Transceiver")
-                equipment.longDescription = equipment.longDescription?.replacingOccurrences(of: "Notebook", with: "Transceiver")
-                dirty = true;
-                break;
-            case "Software"?:
-                let newCategory : String = "Power Amplifier"
-                equipment.categoryName = newCategory
-                equipment.category = newCategory
-                equipment.name =  "Power Amplifier"
-                dirty = true;
-                break;
-            case "Projectors"?, "Ink Jet Printers"?:
-                let newCategory : String = "Multiplexer"
-                equipment.categoryName = newCategory
-                equipment.category = newCategory
-                dirty = true;
-                break;
-            case "Tablets"?, "Flat Screen TVs"?, "Flat Screen Monitors"?:
-                let newCategory : String = "Solar Panel"
-                equipment.categoryName = newCategory
-                equipment.category = newCategory
-                equipment.name = "Solar Panel"
-                dirty = true;
-                break;
-            case "PCs"?, "Laser Printers"?:
-                let newCategory : String = "Diesel Generator"
-                equipment.categoryName = newCategory
-                equipment.category = newCategory
-                equipment.name = equipment.name?.replacingOccurrences(of: "PC", with: "Diesel Generator")
-                dirty = true;
-                break;
+//        for equipment in products {
+//            var dirty = false;
+//            switch equipment.category {
+//
+//            case "Portable Players"?, "Graphic Cards"?:
+//                let newCategory : String = "Control System"
+//                equipment.categoryName = newCategory
+//                equipment.category = newCategory
+//                equipment.name = equipment.name?.replacingOccurrences(of: "DVD Player", with: "Controler")
+//                dirty = true;
+//                break;
+//            case "Scanners"?, "Keyboards"?:
+//                let newCategory : String = "Radio Scanners"
+//                equipment.categoryName = newCategory
+//                equipment.category = newCategory
+//                equipment.name = equipment.name?.replacingOccurrences(of: "Photo", with: "Radio")
+//                equipment.shortDescription = equipment.shortDescription?.replacingOccurrences(of: "Flatbed", with: "Radio")
+//                equipment.longDescription = equipment.longDescription?.replacingOccurrences(of: "Flatbed", with: "Radio")
+//                dirty = true;
+//                break;
+//            case "MP3 Players"?, "Mousepads"? , "Mice"?:
+//                let newCategory : String = "Antenna"
+//                equipment.categoryName = newCategory
+//                equipment.category = newCategory
+//                equipment.name = equipment.name?.replacingOccurrences(of: "Player", with: "Antenna")
+//                equipment.name = equipment.name?.replacingOccurrences(of: "Mousepad", with: "Antenna")
+//                equipment.shortDescription = equipment.shortDescription?.replacingOccurrences(of: "MP3 Players", with: "Antenna")
+//                equipment.longDescription = equipment.longDescription?.replacingOccurrences(of: "MP3 Players", with: "Antenna")
+//                dirty = true;
+//                break;
+//            case "Notebooks"?, "Multifunction Printers"?:
+//                let newCategory : String = "Transceiver"
+//                equipment.categoryName = newCategory
+//                equipment.category = newCategory
+//                equipment.name = equipment.name?.replacingOccurrences(of: "Notebook", with: "Transceiver")
+//                equipment.shortDescription = equipment.shortDescription?.replacingOccurrences(of: "Notebook", with: "Transceiver")
+//                equipment.longDescription = equipment.longDescription?.replacingOccurrences(of: "Notebook", with: "Transceiver")
+//                dirty = true;
+//                break;
+//            case "Software"?:
+//                let newCategory : String = "Power Amplifier"
+//                equipment.categoryName = newCategory
+//                equipment.category = newCategory
+//                equipment.name =  "Power Amplifier"
+//                dirty = true;
+//                break;
+//            case "Projectors"?, "Ink Jet Printers"?:
+//                let newCategory : String = "Multiplexer"
+//                equipment.categoryName = newCategory
+//                equipment.category = newCategory
+//                dirty = true;
+//                break;
+//            case "Tablets"?, "Flat Screen TVs"?, "Flat Screen Monitors"?:
+//                let newCategory : String = "Solar Panel"
+//                equipment.categoryName = newCategory
+//                equipment.category = newCategory
+//                equipment.name = "Solar Panel"
+//                dirty = true;
+//                break;
+//            case "PCs"?, "Laser Printers"?:
+//                let newCategory : String = "Diesel Generator"
+//                equipment.categoryName = newCategory
+//                equipment.category = newCategory
+//                equipment.name = equipment.name?.replacingOccurrences(of: "PC", with: "Diesel Generator")
+//                dirty = true;
+//                break;
+//
+//            default :
+//                break
+//            }
+//            if(dirty){
+//                do {
+//                    try oDataModel?.updateProduct(currentProduct: equipment)
+//                }
+//                catch{
+//                    let alert = UIAlertController(title: "Alert", message: "Updating Product went south!", preferredStyle: .alert)
+//                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
+//                        NSLog("The \"OK\" alert occured.")
+//                    }))
+//                }
+//            }
+//        }
+    }
+    
+}
 
-            default :
-                break
-            }
-            if(dirty){
-                do {
-                    try oDataModel?.updateProduct(currentProduct: equipment)
-                }
-                catch{
-                    let alert = UIAlertController(title: "Alert", message: "Updating Product went south!", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
-                        NSLog("The \"OK\" alert occured.")
-                    }))
-                }
-
-            }
-
-
-        }
+extension HomeViewViewController: UISearchBarDelegate {
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+//        filteredProducts = filteredProducts.filter { ( product ) -> Bool in
+//            guard let searchBarText = searchBar.text else { return false }
+//            return product.name?.range(of: searchBarText) != nil
+//        }
+//
+//        print(filteredProducts)
     }
 }

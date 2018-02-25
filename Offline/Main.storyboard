@@ -39,8 +39,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="8OA-jN-mdY">
+                                <rect key="frame" x="0.0" y="64" width="375" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="SKv-7c-vlc" id="ryE-fR-AgL"/>
+                                </connections>
+                            </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aUA-Xb-XkS">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="120" width="375" height="503"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="OpenTicketCell" textLabel="nLK-qt-jju" detailTextLabel="gjW-4z-0YY" style="IBUITableViewCellStyleSubtitle" id="VNo-xH-EqQ">
@@ -69,13 +76,29 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jZO-lb-PCf">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem title="Map" id="yDt-cW-WF2">
+                                        <connections>
+                                            <segue destination="Pc7-19-qgn" kind="show" id="Fay-4W-jUd"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="aUA-Xb-XkS" firstAttribute="top" secondItem="8OA-jN-mdY" secondAttribute="bottom" id="1Ri-z8-w4q"/>
+                            <constraint firstItem="8OA-jN-mdY" firstAttribute="top" secondItem="XsH-4K-V3T" secondAttribute="bottom" id="1s8-ll-HT8"/>
+                            <constraint firstItem="jZO-lb-PCf" firstAttribute="leading" secondItem="XWM-Kn-mzS" secondAttribute="leading" id="8WG-ei-p4R"/>
+                            <constraint firstItem="8OA-jN-mdY" firstAttribute="leading" secondItem="XWM-Kn-mzS" secondAttribute="leading" id="AGg-ob-Igm"/>
+                            <constraint firstAttribute="trailing" secondItem="8OA-jN-mdY" secondAttribute="trailing" id="Ee6-Y8-B4i"/>
+                            <constraint firstAttribute="trailing" secondItem="jZO-lb-PCf" secondAttribute="trailing" id="PHP-5Q-jbQ"/>
+                            <constraint firstItem="jZO-lb-PCf" firstAttribute="top" secondItem="aUA-Xb-XkS" secondAttribute="bottom" id="TXd-3i-UJv"/>
                             <constraint firstItem="aUA-Xb-XkS" firstAttribute="leading" secondItem="XWM-Kn-mzS" secondAttribute="leading" id="iWx-4k-pMf"/>
-                            <constraint firstItem="7be-Lf-EsH" firstAttribute="top" secondItem="aUA-Xb-XkS" secondAttribute="bottom" id="kCg-Sp-eng"/>
                             <constraint firstAttribute="trailing" secondItem="aUA-Xb-XkS" secondAttribute="trailing" id="rNd-YM-itp"/>
-                            <constraint firstItem="aUA-Xb-XkS" firstAttribute="top" secondItem="XsH-4K-V3T" secondAttribute="bottom" id="rv4-fh-UZ9"/>
+                            <constraint firstItem="7be-Lf-EsH" firstAttribute="top" secondItem="jZO-lb-PCf" secondAttribute="bottom" id="xlU-PD-av9"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="SAP@MWC" id="dfB-d6-RWI">
@@ -87,15 +110,14 @@
                     </navigationItem>
                     <connections>
                         <outlet property="HomeTableView" destination="aUA-Xb-XkS" id="3QI-tw-Swd"/>
-                        <segue destination="kwf-US-e00" kind="show" identifier="Equipment" id="mRg-K4-uhr"/>
-                        <segue destination="bQb-TD-VfW" kind="show" identifier="Tickets" id="gFU-kn-vl3"/>
+                        <segue destination="bQb-TD-VfW" kind="show" identifier="TicketDetails" id="gFU-kn-vl3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FUP-HK-6xo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="734" y="-630"/>
+            <point key="canvasLocation" x="733.60000000000002" y="-630.13493253373315"/>
         </scene>
-        <!--Tickets-->
+        <!--TicketDetails-->
         <scene sceneID="9pK-pB-0Ew">
             <objects>
                 <viewController id="bQb-TD-VfW" customClass="SalesOrderViewController" customModule="Offline" customModuleProvider="target" sceneMemberID="viewController">
@@ -150,7 +172,7 @@
                             <constraint firstItem="ean-EY-87f" firstAttribute="leading" secondItem="ZIV-RM-Y8c" secondAttribute="leading" id="e14-Aj-I26"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Tickets" id="zaY-TM-G0C" userLabel="Tickets">
+                    <navigationItem key="navigationItem" title="TicketDetails" id="zaY-TM-G0C" userLabel="Tickets">
                         <barButtonItem key="rightBarButtonItem" title="close" id="1wm-cA-hbM" userLabel="close">
                             <connections>
                                 <action selector="updateStatus:" destination="bQb-TD-VfW" id="2qG-rD-1e0"/>
@@ -159,11 +181,44 @@
                     </navigationItem>
                     <connections>
                         <outlet property="SalesOrderTable" destination="ean-EY-87f" id="GPJ-rD-iJp"/>
+                        <segue destination="kwf-US-e00" kind="show" identifier="PartDetails" id="ZFK-Va-sbe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1JD-i9-ggS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1802" y="-852"/>
+            <point key="canvasLocation" x="1708" y="-852"/>
+        </scene>
+        <!--Ticket Map View Controller-->
+        <scene sceneID="Quo-1a-lyX">
+            <objects>
+                <viewController id="Pc7-19-qgn" customClass="TicketMapViewController" customModule="Offline" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hh6-GP-lEP"/>
+                        <viewControllerLayoutGuide type="bottom" id="GIh-gO-hxR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="b0D-Ge-lCL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="BbM-5W-6ae">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="GIh-gO-hxR" firstAttribute="top" secondItem="BbM-5W-6ae" secondAttribute="bottom" id="0Pr-dt-oJG"/>
+                            <constraint firstItem="BbM-5W-6ae" firstAttribute="top" secondItem="hh6-GP-lEP" secondAttribute="bottom" id="IpL-7o-72i"/>
+                            <constraint firstAttribute="trailing" secondItem="BbM-5W-6ae" secondAttribute="trailing" id="UnQ-8g-IZl"/>
+                            <constraint firstItem="BbM-5W-6ae" firstAttribute="leading" secondItem="b0D-Ge-lCL" secondAttribute="leading" id="fac-XK-u44"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="BbM-5W-6ae" id="6k6-Ho-He8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="66i-ZM-POJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1700" y="-171"/>
         </scene>
         <!--Details-->
         <scene sceneID="OJi-2G-9cu">
@@ -245,14 +300,14 @@
                             <constraint firstItem="IoK-je-2yX" firstAttribute="leading" secondItem="JKo-Ez-Ug0" secondAttribute="leading" id="q05-DE-KOl"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Detail" id="tfb-W0-7yc" userLabel="Details"/>
+                    <navigationItem key="navigationItem" title="EquipmentDetails" id="tfb-W0-7yc" userLabel="Details"/>
                     <connections>
                         <outlet property="DetailTable" destination="IoK-je-2yX" id="Qvu-ra-MfF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Vo-C5-hya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1800.8" y="-141.67916041979012"/>
+            <point key="canvasLocation" x="2607" y="-852"/>
         </scene>
         <!--Start Screen View Controller-->
         <scene sceneID="sfD-Lo-3rn">
