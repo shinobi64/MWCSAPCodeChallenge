@@ -16,6 +16,8 @@ class TicketMapViewController: UIViewController {
     let latitudinalMeters = 1_000_000.0
     let longitudinalMeters = 1_000_000.0
     
+    var salesOrders: [MyPrefixSalesOrderHeader]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,11 +43,56 @@ class TicketMapViewController: UIViewController {
             mapView.register(FioriMarker.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         }
         
+        let geoCoder = CLGeocoder()
+        
+        for salesOrder in salesOrders {
+            
+            geoCoder.geocodeAddressString(salesOrder.customerDetails?.street ?? "") { (placemarks, error) in
+                guard
+                    let placemarks = placemarks,
+                    let location = placemarks.first?.location
+                    else {
+                        // handle no location found
+                        return
+                }
+                
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = location.coordinate
+                annotation.title = salesOrder.salesOrderID
+                
+                self.mapView.addAnnotation(annotation)
+                
+                if #available(iOS 11.0, *) {
+                    
+                    // the FUIMarkerAnnotationView is only available in iOS 11
+                    class FioriMarker: FUIMarkerAnnotationView {
+                        override var annotation: MKAnnotation? {
+                            willSet {
+                                markerTintColor = .preferredFioriColor(forStyle: .map1)
+                                glyphImage = FUIIconLibrary.map.marker.venue.withRenderingMode(.alwaysTemplate)
+                                displayPriority = .defaultHigh
+                            }
+                        }
+                    }
+                    
+                    self.mapView.register(FioriMarker.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+                }
+            }
+            
+        }
+        
         // center map
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location,
                                                                   latitudinalMeters,
                                                                   longitudinalMeters)
         mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    /// loads the current salesorderItem
+    ///
+    /// - Parameter newItems: the current salesorderItem
+    public func loadSalesOrders(newItem: [MyPrefixSalesOrderHeader]) {
+        salesOrders = newItem
     }
 }
 
