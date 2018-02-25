@@ -9,12 +9,17 @@ import SAPFoundation
 import UIKit
 import SAPFiori
 
+protocol SalesOrderViewControllerDelegate: class {
+    func orderDidComplete(orderId: String)
+}
+
 class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITableViewDataSource, UITableViewDelegate {
 
     @IBAction func updateStatus(_ sender: Any) {
         do {
             try oDataModel!.updateSalesOrderHeader(status: "Close", currentSalesOrder: salesOrder)
             FUIToastMessage.show(message: "Ticket \(salesOrder.salesOrderID) completed.", maxNumberOfLines: 2)
+            delegate?.orderDidComplete(orderId: salesOrder.salesOrderID ?? "")
             navigationController?.popViewController(animated: true)
 
         } catch  {
@@ -32,6 +37,8 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     private var customers = [MyPrefixCustomer]()
     private var oDataModel: ODataModel?
 
+    var delegate: SalesOrderViewControllerDelegate?
+    
     func initialize(oDataModel: ODataModel) {
         self.oDataModel = oDataModel
     }
@@ -164,6 +171,7 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
             let item: MyPrefixSalesOrderItem = salesOrder.items[indexPath.row]
             let pViewControler = segue.destination as! DetailTableViewController
             pViewControler.initialize(oDataModel: oDataModel!)
+            pViewControler.delegate = self
             pViewControler.loadProduct(product)
             pViewControler.loadItem(item)
         }
@@ -175,4 +183,16 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
         salesOrder = newItem
     }
 
+}
+
+extension SalesOrderViewController: DetailTableViewControllerDelegate {
+    func itemDidComplete(partId: Int) {
+        for item in salesOrder.items {
+            if item.itemNumber == partId {
+                item.isComplete = true
+                SalesOrderTable.reloadData()
+                break
+            }
+        }
+    }
 }

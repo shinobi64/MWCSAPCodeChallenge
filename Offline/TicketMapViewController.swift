@@ -10,12 +10,12 @@ class TicketMapViewController: UIViewController {
     
     @IBOutlet var mapView: MKMapView!
     
-    // set the location to the SAP Headquarters: Dietmar-Hopp-Allee 16, 69190 Walldorf DE
-    let location = CLLocationCoordinate2D(latitude: 49.293843, longitude: 8.641369)
+    var startLocation: CLLocation?
     
     let latitudinalMeters = 1_000_000.0
     let longitudinalMeters = 1_000_000.0
     
+    var pinAnnotationView: MKPinAnnotationView!
     var salesOrders: [MyPrefixSalesOrderHeader]!
     
     override func viewDidLoad() {
@@ -28,7 +28,7 @@ class TicketMapViewController: UIViewController {
                 override var annotation: MKAnnotation? {
                     willSet {
                         markerTintColor = .preferredFioriColor(forStyle: .map1)
-                        glyphImage = FUIIconLibrary.map.marker.venue.withRenderingMode(.alwaysTemplate)
+                        glyphImage = FUIIconLibrary.map.marker.inProcess.withRenderingMode(.alwaysTemplate)
                         displayPriority = .defaultHigh
                     }
                 }
@@ -54,13 +54,21 @@ class TicketMapViewController: UIViewController {
                 annotation.coordinate = location.coordinate
                 annotation.title = salesOrder.salesOrderID
                 
-                self.mapView.addAnnotation(annotation)
+                self.pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+                self.pinAnnotationView.canShowCallout = true
+                
+                if self.startLocation == nil {
+                    self.startLocation = location
+                }
+                
+                self.mapView.addAnnotation(self.pinAnnotationView.annotation!)
             }
             
         }
         
         // center map
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location,
+        guard let startCoordinate = startLocation?.coordinate else { return }
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(startCoordinate,
                                                                   latitudinalMeters,
                                                                   longitudinalMeters)
         mapView.setRegion(coordinateRegion, animated: true)
@@ -74,3 +82,9 @@ class TicketMapViewController: UIViewController {
     }
 }
 
+extension TicketMapViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+    }
+    
+}

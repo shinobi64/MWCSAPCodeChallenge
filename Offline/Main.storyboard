@@ -27,7 +27,7 @@
             </objects>
             <point key="canvasLocation" x="-38" y="-630"/>
         </scene>
-        <!--SAP@MWC-->
+        <!--EvoraIT/OpenReply-->
         <scene sceneID="Xqz-hL-DZi">
             <objects>
                 <viewController id="SKv-7c-vlc" customClass="HomeViewViewController" customModule="Offline" customModuleProvider="target" sceneMemberID="viewController">
@@ -129,13 +129,7 @@
                             <constraint firstAttribute="trailing" secondItem="aUA-Xb-XkS" secondAttribute="trailing" id="rNd-YM-itp"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="SAP@MWC" id="dfB-d6-RWI">
-                        <barButtonItem key="rightBarButtonItem" title="resetData" id="aCg-TF-1gE">
-                            <connections>
-                                <action selector="resetData:" destination="SKv-7c-vlc" id="oid-b2-g3Y"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="EvoraIT/OpenReply" id="dfB-d6-RWI"/>
                     <connections>
                         <outlet property="HomeTableView" destination="aUA-Xb-XkS" id="3QI-tw-Swd"/>
                         <outlet property="filterView" destination="5Vf-1N-Fw2" id="ymo-BX-S46"/>
@@ -229,8 +223,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="BbM-5W-6ae">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BbM-5W-6ae">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Pc7-19-qgn" id="AgB-rs-yj1"/>
+                                </connections>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

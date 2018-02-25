@@ -8,12 +8,17 @@
 import UIKit
 import SAPFiori
 
+protocol DetailTableViewControllerDelegate: class {
+    func itemDidComplete(partId: Int)
+}
+
 class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDelegate, UITextFieldDelegate, ActivityIndicator {
     
     private var product: MyPrefixProduct!
     private var item: MyPrefixSalesOrderItem!
     private var activityIndicator: UIActivityIndicatorView!
     private var oDataModel: ODataModel?
+    var delegate: DetailTableViewControllerDelegate?
     
     private var instructions: [String] = [
         "Open container",
@@ -29,6 +34,7 @@ class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDeleg
         self.item.isComplete = true
         if let itemNo = self.item.itemNumber {
             FUIToastMessage.show(message: "Item \(itemNo) has been completed.")
+            delegate?.itemDidComplete(partId: itemNo)
             self.navigationController?.popViewController(animated: true)
         }
         

@@ -106,6 +106,7 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, Activity
             let order: MyPrefixSalesOrderHeader = filteredSalesOrders[indexPath.row]
             let sOviewControler = segue.destination as! SalesOrderViewController
             sOviewControler.initialize(oDataModel: oDataModel!)
+            sOviewControler.delegate = self
             sOviewControler.loadSalesOrderItems(newItem: order)
             
         } else if segue.identifier == "TicketMap" {
@@ -157,91 +158,6 @@ class HomeViewViewController: UIViewController, URLSessionTaskDelegate, Activity
      }
      */
     /// the function corrects the data to reflect the challange at the MVC 2017
-    @IBAction func resetData(_ sender: Any) {
-
-//        for equipment in products {
-//            var dirty = false;
-//            switch equipment.category {
-//
-//            case "Portable Players"?, "Graphic Cards"?:
-//                let newCategory : String = "Control System"
-//                equipment.categoryName = newCategory
-//                equipment.category = newCategory
-//                equipment.name = equipment.name?.replacingOccurrences(of: "DVD Player", with: "Controler")
-//                dirty = true;
-//                break;
-//            case "Scanners"?, "Keyboards"?:
-//                let newCategory : String = "Radio Scanners"
-//                equipment.categoryName = newCategory
-//                equipment.category = newCategory
-//                equipment.name = equipment.name?.replacingOccurrences(of: "Photo", with: "Radio")
-//                equipment.shortDescription = equipment.shortDescription?.replacingOccurrences(of: "Flatbed", with: "Radio")
-//                equipment.longDescription = equipment.longDescription?.replacingOccurrences(of: "Flatbed", with: "Radio")
-//                dirty = true;
-//                break;
-//            case "MP3 Players"?, "Mousepads"? , "Mice"?:
-//                let newCategory : String = "Antenna"
-//                equipment.categoryName = newCategory
-//                equipment.category = newCategory
-//                equipment.name = equipment.name?.replacingOccurrences(of: "Player", with: "Antenna")
-//                equipment.name = equipment.name?.replacingOccurrences(of: "Mousepad", with: "Antenna")
-//                equipment.shortDescription = equipment.shortDescription?.replacingOccurrences(of: "MP3 Players", with: "Antenna")
-//                equipment.longDescription = equipment.longDescription?.replacingOccurrences(of: "MP3 Players", with: "Antenna")
-//                dirty = true;
-//                break;
-//            case "Notebooks"?, "Multifunction Printers"?:
-//                let newCategory : String = "Transceiver"
-//                equipment.categoryName = newCategory
-//                equipment.category = newCategory
-//                equipment.name = equipment.name?.replacingOccurrences(of: "Notebook", with: "Transceiver")
-//                equipment.shortDescription = equipment.shortDescription?.replacingOccurrences(of: "Notebook", with: "Transceiver")
-//                equipment.longDescription = equipment.longDescription?.replacingOccurrences(of: "Notebook", with: "Transceiver")
-//                dirty = true;
-//                break;
-//            case "Software"?:
-//                let newCategory : String = "Power Amplifier"
-//                equipment.categoryName = newCategory
-//                equipment.category = newCategory
-//                equipment.name =  "Power Amplifier"
-//                dirty = true;
-//                break;
-//            case "Projectors"?, "Ink Jet Printers"?:
-//                let newCategory : String = "Multiplexer"
-//                equipment.categoryName = newCategory
-//                equipment.category = newCategory
-//                dirty = true;
-//                break;
-//            case "Tablets"?, "Flat Screen TVs"?, "Flat Screen Monitors"?:
-//                let newCategory : String = "Solar Panel"
-//                equipment.categoryName = newCategory
-//                equipment.category = newCategory
-//                equipment.name = "Solar Panel"
-//                dirty = true;
-//                break;
-//            case "PCs"?, "Laser Printers"?:
-//                let newCategory : String = "Diesel Generator"
-//                equipment.categoryName = newCategory
-//                equipment.category = newCategory
-//                equipment.name = equipment.name?.replacingOccurrences(of: "PC", with: "Diesel Generator")
-//                dirty = true;
-//                break;
-//
-//            default :
-//                break
-//            }
-//            if(dirty){
-//                do {
-//                    try oDataModel?.updateProduct(currentProduct: equipment)
-//                }
-//                catch{
-//                    let alert = UIAlertController(title: "Alert", message: "Updating Product went south!", preferredStyle: .alert)
-//                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
-//                        NSLog("The \"OK\" alert occured.")
-//                    }))
-//                }
-//            }
-//        }
-    }
     
 }
 
@@ -365,6 +281,12 @@ extension HomeViewViewController: FUIFilterResultsUpdating {
             }
         }
         
+        HomeTableView.reloadData()
+    }
+}
+
+extension HomeViewViewController: SalesOrderViewControllerDelegate {
+    func orderDidComplete(orderId: String) {
         HomeTableView.reloadData()
     }
 }
