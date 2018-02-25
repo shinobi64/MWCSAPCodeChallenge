@@ -10,10 +10,15 @@ import SAPFiori
 
 class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDelegate, UITextFieldDelegate, ActivityIndicator {
 
-    private var salesOrderItem: MyPrefixProduct!
-    private var products = [MyPrefixProduct]()
+    private var product: MyPrefixProduct!
     private var activityIndicator: UIActivityIndicatorView!
     private var oDataModel: ODataModel?
+    
+    private var instructions: [String] = [
+        "Open container",
+        "Remove sealing",
+        "Turn it off and on again"
+    ]
 
     func initialize(oDataModel: ODataModel) {
         self.oDataModel = oDataModel
@@ -32,21 +37,21 @@ class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDeleg
         
         showActivityIndicator(activityIndicator)
         
-        oDataModel?.openOfflineStore { result in
-            OperationQueue.main.addOperation {
-                self.loadData()
-            }
-        }
-        if (salesOrderItem != nil) {
+//        oDataModel?.openOfflineStore { result in
+//            OperationQueue.main.addOperation {
+////                self.loadData()
+//            }
+//        }
+        if (product != nil) {
             let objectHeader = FUIObjectHeader() 
             //        objectHeader.detailImageView.image = #imageLiteral(resourceName: "ProfilePic")
             
-            objectHeader.headlineLabel.text = salesOrderItem.name
-            objectHeader.subheadlineLabel.text = "\(salesOrderItem.price!.toString()) \(String(describing: salesOrderItem.currencyCode))"
-            objectHeader.footnoteLabel.text = salesOrderItem.categoryName
-            objectHeader.descriptionLabel.text = salesOrderItem.longDescription
-            
-            objectHeader.statusLabel.text = salesOrderItem.supplierID
+            objectHeader.headlineLabel.text = product.name
+//            objectHeader.subheadlineLabel.text = "\(salesOrderItem.price!.toString()) \(String(describing: salesOrderItem.currencyCode))"
+//            objectHeader.footnoteLabel.text = salesOrderItem.categoryName
+//            objectHeader.descriptionLabel.text = salesOrderItem.longDescription
+//
+//            objectHeader.statusLabel.text = salesOrderItem.supplierID
             DetailTable.tableHeaderView = objectHeader
             
         }
@@ -57,28 +62,11 @@ class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDeleg
         // Dispose of any resources that can be recreated.
     }
 
-    /// loads the current salesorderItem
+    /// loads the current product
     ///
-    /// - Parameter newItems: the current salesorderItem
-    func loadSalesOrderItem(item: MyPrefixProduct) {
-        salesOrderItem = item
-    }
-    
-    private func loadData() {
-        self.oDataModel!.loadProdcuts{ resultProducts, error in
-            
-            if error != nil {
-                // handle error in future version
-            }
-            if let tempProducts = resultProducts {
-                self.products = tempProducts
-            }
-            OperationQueue.main.addOperation {
-                self.DetailTable.reloadData()
-                
-            }
-            self.hideActivityIndicator(self.activityIndicator)
-        }
+    /// - Parameter product: the current product
+    func loadProduct(_ product: MyPrefixProduct) {
+        self.product = product
     }
 
 }
@@ -100,7 +88,7 @@ extension DetailTableViewController: UITableViewDataSource, UITableViewDelegate 
     ///   - section:
     /// - Returns: returns the number of rows the table should have
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return 3 // your number of cell here
+        return instructions.count // your number of cell here
     }
     
     /// Delegate function from UITableViewDataSource
@@ -112,10 +100,10 @@ extension DetailTableViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! EditableCell
         
-        let  singleProduct = products[indexPath.row]
+        let  instruction = instructions[indexPath.row]
         
-        cell.textLabel?.text = "\(singleProduct.name!) \(singleProduct.categoryName!)"
-        cell.detailTextLabel?.text = (singleProduct.price?.toString())! + singleProduct.currencyCode!
+        cell.textLabel?.text = "\(indexPath.row + 1). \(instruction)"
+//        cell.detailTextLabel?.text = (singleProduct.price?.toString())! + singleProduct.currencyCode!
         
         //        switch indexPath.row {
         //        case 0:
@@ -136,7 +124,7 @@ extension DetailTableViewController: UITableViewDataSource, UITableViewDelegate 
         //        default: break
         //
         //        }
-        cell.valueTextField.allowsEditingTextAttributes = false
+//        cell.valueTextField.allowsEditingTextAttributes = false
         
         return cell
         

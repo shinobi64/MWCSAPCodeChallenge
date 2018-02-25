@@ -100,7 +100,8 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
         return cell
     }
 
-    func tableView(_: UITableView, didSelectRowAt _: IndexPath) {
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "PartDetails", sender: indexPath)
     }
 
     /// Handler to prepare the segue
@@ -109,7 +110,13 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     ///   - segue:
     ///   - sender:
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showSalesOrderItem" {
+        if segue.identifier == "PartDetails" {
+            
+            let indexPath = sender as! IndexPath
+            let product: MyPrefixProduct = products[indexPath.row]
+            let pViewControler = segue.destination as! DetailTableViewController
+            pViewControler.initialize(oDataModel: oDataModel!)
+            pViewControler.loadProduct(product)
             /// check email to implement this via sender
 //            let selectedRow = sender as! UITableViewCell
 //            let selectedIndexPath = SalesOrderTable.indexPath(for: selectedRow)!
@@ -125,4 +132,5 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     public func loadSalesOrderItems(newItem: MyPrefixSalesOrderHeader) {
         salesOrder = newItem
     }
+
 }
