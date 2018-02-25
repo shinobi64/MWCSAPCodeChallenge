@@ -37,6 +37,10 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         automaticallyAdjustsScrollViewInsets = false
+        
+        SalesOrderTable.register(FUIObjectTableViewCell.self, forCellReuseIdentifier: "SalesOrderCell")
+        SalesOrderTable.estimatedRowHeight = 80
+        SalesOrderTable.rowHeight = UITableViewAutomaticDimension
 
         // Do any additional setup after loading the view
         oDataModel!.loadProdcutsForSalesOrder(salesOrder: salesOrder)  { resultProducts, error in
@@ -51,16 +55,25 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
             }
         }
         if (salesOrder != nil) {
+            // define some object header details
             let objectHeader = FUIObjectHeader()
-            //        objectHeader.detailImageView.image = #imageLiteral(resourceName: "ProfilePic")
             
-            objectHeader.headlineLabel.text = salesOrder.salesOrderID
-            objectHeader.subheadlineLabel.text = "\(salesOrder.grossAmount!.toString()) \(salesOrder.currencyCode)"
-            //        objectHeader.tags = [FUITag(title: "Started"), FUITag(title: "PM01"), FUITag(title: "103-Repair")]
-            objectHeader.bodyLabel.text = salesOrder.lifeCycleStatusName
-            objectHeader.descriptionLabel.text = "this is the long text which descripes the issue if there is one"
+            
+            objectHeader.headlineLabel.text = "Inspection for \(salesOrder.customerDetails?.lastName ?? "TestCustomer")"
+            objectHeader.subheadlineLabel.text = "Job \(salesOrder.salesOrderID ?? "1234")"
+            
+            objectHeader.tags = [FUITag(title: "\(salesOrder.lifeCycleStatusName ?? "Open")"), FUITag(title: "PM01"), FUITag(title: "103-Repair")]
+
+            objectHeader.bodyLabel.numberOfLines = 2
+            objectHeader.bodyText = "\(salesOrder.customerDetails?.postalCode ?? "69190") \(salesOrder.customerDetails?.city ?? "Walldorf")\n\(salesOrder.customerDetails?.street ?? "Altrottstraße 31")"
+            
+            objectHeader.descriptionText = "Temperature sensor predicts overheating failure. Urgent and needs attention!"
+            objectHeader.descriptionLabel.text = "Temperature sensor predicts overheating in the next 3 days"
+            
+            objectHeader.footnoteText = "Due on 25th Feb. 2018"
             
             objectHeader.statusLabel.text = "High"
+            objectHeader.statusLabel.textColor = .preferredFioriColor(forStyle: .negative)
             SalesOrderTable.tableHeaderView = objectHeader
 
         }
@@ -82,7 +95,8 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     ///   - section:
     /// - Returns: returns the number of rows the table should have
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return products.count // your number of cell here
+        // use the number of sales order items as each item has a assigned product
+        return products.count
     }
 
     /// Delegate function from UITableViewDataSource
@@ -92,12 +106,20 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     ///   - indexPath:
     /// - Returns: fills the cells with the Sales order
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SalesOrderCell", for: indexPath)
-        let singleProduct = products[indexPath.row]
-        cell.textLabel?.text = singleProduct.productID
-        cell.detailTextLabel?.text = (singleProduct.name! + " - " + singleProduct.categoryName!)
-
-        return cell
+        // make the object table cell
+        let objectCell = tableView.dequeueReusableCell(withIdentifier: "SalesOrderCell", for: indexPath) as! FUIObjectTableViewCell
+        
+        let singleItem = products[indexPath.row]
+        
+        objectCell.headlineText = singleItem.name
+        objectCell.subheadlineText = singleItem.productID
+        objectCell.footnoteText = singleItem.categoryName
+        
+        objectCell.substatusText = "In Stock"
+        objectCell.substatusLabel.textColor = .preferredFioriColor(forStyle: .positive)
+        objectCell.accessoryType = .disclosureIndicator
+        
+        return objectCell
     }
 
     func tableView(_: UITableView, didSelectRowAt _: IndexPath) {
