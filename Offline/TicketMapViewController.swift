@@ -83,8 +83,5 @@ class TicketMapViewController: UIViewController {
 }
 
 extension TicketMapViewController: MKMapViewDelegate {
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
-    }
     
 }
