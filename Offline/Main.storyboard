@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -355,12 +354,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sap.png" translatesAutoresizingMaskIntoConstraints="NO" id="lFF-kh-9Ff">
-                                <rect key="frame" x="67" y="269" width="240" height="128"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="lFF-kh-9Ff" secondAttribute="height" multiplier="15:8" id="1Ay-g4-MXp"/>
-                                </constraints>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mobile Interactive Tutorials" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5g8-OY-sIm">
                                 <rect key="frame" x="0.0" y="135" width="375" height="74"/>
                                 <constraints>
@@ -379,19 +372,23 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="evora.png" translatesAutoresizingMaskIntoConstraints="NO" id="4fo-SE-QgV">
+                                <rect key="frame" x="67" y="269" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="open.png" translatesAutoresizingMaskIntoConstraints="NO" id="B1d-Ey-VLu">
+                                <rect key="frame" x="67" y="421" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="lFF-kh-9Ff" firstAttribute="top" secondItem="5g8-OY-sIm" secondAttribute="bottom" constant="60" id="8x5-NA-mSA"/>
                             <constraint firstAttribute="trailing" secondItem="5g8-OY-sIm" secondAttribute="trailing" id="BQ3-Kc-oNR"/>
                             <constraint firstItem="5g8-OY-sIm" firstAttribute="leading" secondItem="oe6-G1-CTp" secondAttribute="leading" id="HCS-q8-WdS"/>
-                            <constraint firstItem="tga-79-gCJ" firstAttribute="leading" secondItem="lFF-kh-9Ff" secondAttribute="leading" id="MxX-0E-yAc"/>
-                            <constraint firstItem="tga-79-gCJ" firstAttribute="top" secondItem="lFF-kh-9Ff" secondAttribute="bottom" constant="54" id="PXf-xo-Fqo"/>
                             <constraint firstItem="tga-79-gCJ" firstAttribute="leading" secondItem="oe6-G1-CTp" secondAttribute="leadingMargin" constant="51" id="QXO-Od-2fu"/>
                             <constraint firstItem="5g8-OY-sIm" firstAttribute="centerX" secondItem="tga-79-gCJ" secondAttribute="centerX" id="r7y-Ex-lK9"/>
                             <constraint firstItem="5g8-OY-sIm" firstAttribute="top" secondItem="r3V-uh-llz" secondAttribute="bottom" constant="115" id="rEn-tm-L8d"/>
                             <constraint firstItem="0f2-Ba-9s4" firstAttribute="top" secondItem="tga-79-gCJ" secondAttribute="bottom" constant="37" id="vDV-Em-sr2"/>
-                            <constraint firstItem="5g8-OY-sIm" firstAttribute="centerX" secondItem="lFF-kh-9Ff" secondAttribute="centerX" id="yYu-Wa-cqx"/>
                         </constraints>
                     </view>
                     <connections>
@@ -405,6 +402,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="sap.png" width="300" height="149"/>
+        <image name="evora.png" width="188" height="63"/>
+        <image name="open.png" width="104" height="31"/>
     </resources>
 </document>

@@ -26,6 +26,8 @@
 		6CFA48E01E8934B000D36D9C /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFA48DF1E8934B000D36D9C /* ActivityIndicator.swift */; };
 		CA0152A720431629009E4A94 /* TicketAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0152A620431629009E4A94 /* TicketAnnotationView.swift */; };
 		CA997DD42042E98C008DFD8D /* TicketMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA997DD32042E98C008DFD8D /* TicketMapViewController.swift */; };
+		D55FECBE2043206C0034E6BE /* evora.png in Resources */ = {isa = PBXBuildFile; fileRef = D55FECBD2043206C0034E6BE /* evora.png */; };
+		D55FECC02043207A0034E6BE /* open.png in Resources */ = {isa = PBXBuildFile; fileRef = D55FECBF2043207A0034E6BE /* open.png */; };
 		E00FC06D1F4EC32B00CC339A /* MyPrefixPurchaseOrderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00FC0611F4EC32B00CC339A /* MyPrefixPurchaseOrderItem.swift */; };
 		E00FC06E1F4EC32B00CC339A /* MyPrefixProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00FC0621F4EC32B00CC339A /* MyPrefixProduct.swift */; };
 		E00FC06F1F4EC32B00CC339A /* MyPrefixCustomer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00FC0631F4EC32B00CC339A /* MyPrefixCustomer.swift */; };
@@ -110,6 +112,8 @@
 		6CFA48DF1E8934B000D36D9C /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		CA0152A620431629009E4A94 /* TicketAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketAnnotationView.swift; sourceTree = "<group>"; };
 		CA997DD32042E98C008DFD8D /* TicketMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketMapViewController.swift; sourceTree = "<group>"; };
+		D55FECBD2043206C0034E6BE /* evora.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evora.png; sourceTree = "<group>"; };
+		D55FECBF2043207A0034E6BE /* open.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = open.png; sourceTree = "<group>"; };
 		E00FC0611F4EC32B00CC339A /* MyPrefixPurchaseOrderItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPrefixPurchaseOrderItem.swift; sourceTree = "<group>"; };
 		E00FC0621F4EC32B00CC339A /* MyPrefixProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPrefixProduct.swift; sourceTree = "<group>"; };
 		E00FC0631F4EC32B00CC339A /* MyPrefixCustomer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPrefixCustomer.swift; sourceTree = "<group>"; };
@@ -222,6 +226,8 @@
 		6C4C99841DF19D89004970FF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D55FECBD2043206C0034E6BE /* evora.png */,
+				D55FECBF2043207A0034E6BE /* open.png */,
 				6CFA48DF1E8934B000D36D9C /* ActivityIndicator.swift */,
 				6C08B8771E68670F003DFB69 /* sap.png */,
 				6C08B8781E68670F003DFB69 /* StartScreenViewController.swift */,
@@ -353,7 +359,7 @@
 				TargetAttributes = {
 					6C4C991C1DF19CCD004970FF = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = H8QB58T8ZU;
+						DevelopmentTeam = LN49985R3R;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 					};
@@ -395,8 +401,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C359BD11EAF7C2C007F34B6 /* Main.storyboard in Resources */,
+				D55FECC02043207A0034E6BE /* open.png in Resources */,
 				6C4C99691DF19D45004970FF /* Assets.xcassets in Resources */,
 				6C08B8791E68670F003DFB69 /* sap.png in Resources */,
+				D55FECBE2043206C0034E6BE /* evora.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,7 +600,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = H8QB58T8ZU;
+				DEVELOPMENT_TEAM = LN49985R3R;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/Release-fat",
@@ -600,7 +608,7 @@
 				);
 				INFOPLIST_FILE = Offline/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sap.cp.sdk.ios.sampleapp.basic.offline;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.evorait.mwc-2018.offline";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -612,7 +620,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = H8QB58T8ZU;
+				DEVELOPMENT_TEAM = LN49985R3R;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/Release-fat",
@@ -620,7 +628,7 @@
 				);
 				INFOPLIST_FILE = Offline/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sap.cp.sdk.ios.sampleapp.basic.offline;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.evorait.mwc-2018.offline";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 			};
