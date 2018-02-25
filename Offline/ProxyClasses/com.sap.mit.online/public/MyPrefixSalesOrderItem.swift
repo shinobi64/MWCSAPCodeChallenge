@@ -5,6 +5,7 @@ import SAPOData
 
 open class MyPrefixSalesOrderItem: EntityValue {
     public required init(from decoder: Decoder) throws {
+        self.isComplete = false
         try super.init(from: decoder)
     }
 
@@ -33,6 +34,7 @@ open class MyPrefixSalesOrderItem: EntityValue {
     public static var header: Property = MyServiceClassMetadata.EntityTypes.salesOrderItem.property(withName: "Header")
 
     public init(withDefaults: Bool = true) {
+        self.isComplete = false
         super.init(withDefaults: withDefaults, type: MyServiceClassMetadata.EntityTypes.salesOrderItem)
     }
 
@@ -167,4 +169,6 @@ open class MyPrefixSalesOrderItem: EntityValue {
             self.setOptionalValue(for: MyPrefixSalesOrderItem.taxAmount, to: DecimalValue.of(optional: value))
         }
     }
+    
+    open var isComplete: Bool
 }
