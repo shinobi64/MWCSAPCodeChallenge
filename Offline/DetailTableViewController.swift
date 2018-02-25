@@ -25,6 +25,15 @@ class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDeleg
         self.oDataModel = oDataModel
     }
 
+    @IBAction func completeItem(_ sender: Any) {
+        self.item.isComplete = true
+        if let itemNo = self.item.itemNumber {
+            FUIToastMessage.show(message: "Item \(itemNo) has been completed.")
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+    }
+    
     @IBOutlet var DetailTable: UITableView!
 
     /// Delegate function from UIViewController

@@ -331,7 +331,11 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="EquipmentDetails" id="tfb-W0-7yc" userLabel="Details">
-                        <barButtonItem key="rightBarButtonItem" title="Complete" id="VtL-DY-mJm"/>
+                        <barButtonItem key="rightBarButtonItem" title="Complete" id="VtL-DY-mJm">
+                            <connections>
+                                <action selector="completeItem:" destination="kwf-US-e00" id="3Ya-T3-dkZ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
