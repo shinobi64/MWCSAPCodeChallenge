@@ -25,6 +25,9 @@ class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDeleg
         self.oDataModel = oDataModel
     }
 
+    @IBAction func completeItem(_ sender: Any) {
+        
+    }
     @IBOutlet var DetailTable: UITableView!
 
     /// Delegate function from UIViewController
