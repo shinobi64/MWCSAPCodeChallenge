@@ -27,6 +27,7 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
     private var salesOrder: MyPrefixSalesOrderHeader!
 
     private var products = [MyPrefixProduct]()
+    private var customers = [MyPrefixCustomer]()
     private var oDataModel: ODataModel?
 
     func initialize(oDataModel: ODataModel) {
@@ -54,6 +55,7 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
 
             }
         }
+        
         if (salesOrder != nil) {
             // define some object header details
             let objectHeader = FUIObjectHeader()
@@ -139,13 +141,6 @@ class SalesOrderViewController: UIViewController, URLSessionTaskDelegate, UITabl
             let pViewControler = segue.destination as! DetailTableViewController
             pViewControler.initialize(oDataModel: oDataModel!)
             pViewControler.loadProduct(product)
-            /// check email to implement this via sender
-//            let selectedRow = sender as! UITableViewCell
-//            let selectedIndexPath = SalesOrderTable.indexPath(for: selectedRow)!
-//            let order: MyPrefixProduct = products[selectedIndexPath.row]
-//            let itemViewControler = segue.destination as! SalesOrderItemViewController
-//            itemViewControler.initialize(oDataModel: oDataModel!)
-//            itemViewControler.loadSalesOrderItems(newItems: order)
         }
     }
     /// loads the current salesorderItem
