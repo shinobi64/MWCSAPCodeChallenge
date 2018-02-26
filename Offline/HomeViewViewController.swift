@@ -254,6 +254,10 @@ extension HomeViewViewController: UISearchBarDelegate {
         HomeTableView.reloadData()
     }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
 }
 
 extension HomeViewViewController: FUIFilterResultsUpdating {
