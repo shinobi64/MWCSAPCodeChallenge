@@ -15,7 +15,7 @@ class TicketMapViewController: UIViewController {
     let latitudinalMeters = 1_000_000.0
     let longitudinalMeters = 1_000_000.0
     
-    var pinAnnotationView: MKPinAnnotationView!
+    var pinAnnotationView: FUIMarkerAnnotationView!//MKPinAnnotationView!
     var salesOrders: [MyPrefixSalesOrderHeader]!
     
     override func viewDidLoad() {
@@ -28,8 +28,9 @@ class TicketMapViewController: UIViewController {
                 override var annotation: MKAnnotation? {
                     willSet {
                         markerTintColor = .preferredFioriColor(forStyle: .map1)
-                        glyphImage = FUIIconLibrary.map.marker.inProcess.withRenderingMode(.alwaysTemplate)
-                        displayPriority = .defaultHigh
+                        glyphImage = FUIIconLibrary.map.marker.cafe.withRenderingMode(.alwaysTemplate)
+                        displayPriority = .required
+                        priorityIcon = FUIIconLibrary.map.marker.highPriority
                     }
                 }
             }
@@ -54,7 +55,7 @@ class TicketMapViewController: UIViewController {
                 annotation.coordinate = location.coordinate
                 annotation.title = salesOrder.salesOrderID
                 
-                self.pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+                self.pinAnnotationView = FUIMarkerAnnotationView(annotation: annotation, reuseIdentifier: "pin")//MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
                 self.pinAnnotationView.canShowCallout = true
                 
                 if self.startLocation == nil {

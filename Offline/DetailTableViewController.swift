@@ -20,10 +20,10 @@ class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDeleg
     private var oDataModel: ODataModel?
     var delegate: DetailTableViewControllerDelegate?
     
-    private var instructions: [String] = [
-        "Open container",
-        "Remove sealing",
-        "Turn it off and on again"
+    private var instructions:[(description: String, isComplete: Bool)] = [
+        ("Open container", false),
+        ("Remove sealing", false),
+        ("Turn it off and on again", false)
     ]
 
     func initialize(oDataModel: ODataModel) {
@@ -48,9 +48,12 @@ class DetailTableViewController: UIViewController, Notifier, URLSessionTaskDeleg
         DetailTable.delegate = self
         DetailTable.dataSource = self
         
-        DetailTable.allowsMultipleSelectionDuringEditing = true
-        DetailTable.setEditing(true, animated: true)
-        DetailTable.register(FUIObjectTableViewCell.self, forCellReuseIdentifier: "DetailCell")
+        DetailTable.register(FUITimelineCell.self, forCellReuseIdentifier: "DetailCell")
+        DetailTable.estimatedRowHeight = 44
+        DetailTable.rowHeight = UITableViewAutomaticDimension
+        
+        DetailTable.backgroundColor = UIColor.preferredFioriColor(forStyle: .backgroundBase)
+        DetailTable.separatorStyle = .none
         
         activityIndicator = initActivityIndicator()
         activityIndicator.center = view.center
@@ -126,16 +129,43 @@ extension DetailTableViewController: UITableViewDataSource, UITableViewDelegate 
     ///   - indexPath:
     /// - Returns: fills the cells with the Salesorder
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! FUIObjectTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! FUITimelineCell
     
         let instruction = instructions[indexPath.row]
         
-        cell.headlineText = "\(indexPath.row + 1). \(instruction)"
+        cell.headlineText = instruction.description
+        cell.eventText = "Step \(indexPath.row + 1)"
+        
+        if instruction.isComplete {
+            cell.eventImage = FUIIconLibrary.system.check
+        }
+        
+        cell.nodeImage = UIImage()
+        
         return cell
         
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    }
+    
+    // return an add to cart action for when the user swipes left on the cell
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let markAsComplete = UITableViewRowAction( style: .normal, title: "Mark as complete") { _, _ in
+            
+            // remove swiped-in button
+            tableView.setEditing(false, animated: true)
+            self.instructions[indexPath.row].isComplete = true
+            tableView.reloadData()
+            
+        }
+        
+        // set color of swiped-in button
+        markAsComplete.backgroundColor = .preferredFioriColor(forStyle: .tintColorDark)
+        
+        return [markAsComplete]
+        
     }
     
 }
